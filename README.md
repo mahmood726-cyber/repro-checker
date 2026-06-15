@@ -9,13 +9,26 @@ recomputes from sourced data. When the data is not sourceable, the verdict is an
 honest *cannot-verify* (with the reason). The tool never fabricates a check
 result.
 
+**Standalone tool (live):** <https://mahmood726-cyber.github.io/repro-checker/>
+
 One shared engine, two front-ends:
 
-- **Synthēsis editorial gate** — every submitted meta-analysis is auto-checked
-  on submission; the editor gets the reproducibility report **before** an accept
-  decision. It *informs*; it does not auto-reject.
-- **Standalone allmeta tool** — a web UI + CLI where any author or editor pastes
-  a paper / study table (or points at fixtures) and gets the report.
+- **Synthēsis editorial gate** (`synthesis_gate.py`) — every submitted
+  meta-analysis is auto-checked on submission; the editor gets the
+  reproducibility report **before** an accept decision. It *informs*; it does
+  not auto-reject. Runs against a submission-files export or the live OJS REST
+  submission queue.
+- **Standalone allmeta tool** (`docs/`, hosted on Pages, + the CLI) — paste a
+  study table (or load an example) and get the report fully offline; opt-in
+  in-browser live re-sourcing.
+
+```bash
+# Synthēsis gate — process an export of submission files
+python synthesis_gate.py --export ./submissions --out reports
+#   -> reports/EDITOR_SUMMARY.md (advisory) + reports/<id>.md per submission
+# or the live OJS queue:
+python synthesis_gate.py --ojs-base https://www.synthesis-medicine.org/index.php/journal --token $OJS_TOKEN
+```
 
 ## What it does (pipeline)
 
