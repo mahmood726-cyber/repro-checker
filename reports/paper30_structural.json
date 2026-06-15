@@ -1,0 +1,312 @@
+{
+  "title": "Synthetic structural-defect meta-analysis (#30 stand-in)",
+  "source": "fixture:paper30-structural (SYNTHETIC; exercises k-mismatch, fabricated NCT, miscited review, placeholder artifact)",
+  "overall": "FAIL \u2014 integrity issue",
+  "overall_detail": "2 high-severity flag(s) (e.g. Citation is not a primary trial: PMID 42009258 is ['Journal Article', 'Systematic Review', 'Meta-Analysis'], not a primary trial). The pooled number may be unsafe regardless of arithmetic.",
+  "measure": "RR",
+  "generated": "2026-06-15 20:44 UTC",
+  "recomputed": {
+    "measure": "RR",
+    "est": 0.5531891552285191,
+    "lci": 0.42482306420279653,
+    "uci": 0.7203428138646436,
+    "log_est": -0.5920552830920783,
+    "se": 0.13471024725110156,
+    "Q": 68.57037325269046,
+    "Qdf": 4,
+    "Qp": 4.547001065271953e-14,
+    "I2": 94.16657688990622,
+    "tau2": 0.07616392239033555,
+    "tau2_dl": 0.15512357877181657,
+    "pi_lci": 0.23587854974614647,
+    "pi_uci": 1.2973551083461416,
+    "k": 5,
+    "estimator": "REML"
+  },
+  "claims": [
+    {
+      "quantity": "pooled RR",
+      "claimed": 0.7,
+      "recomputed": 0.5531891552285191,
+      "verdict": "diverges",
+      "tolerance": "\u00b15% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "95% CI lower",
+      "claimed": 0.6,
+      "recomputed": 0.42482306420279653,
+      "verdict": "diverges",
+      "tolerance": "\u00b18% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "95% CI upper",
+      "claimed": 0.82,
+      "recomputed": 0.7203428138646436,
+      "verdict": "diverges",
+      "tolerance": "\u00b18% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "I^2 (%)",
+      "claimed": 30.0,
+      "recomputed": 94.2,
+      "verdict": "diverges",
+      "tolerance": "\u00b15.0 pts",
+      "reason": ""
+    },
+    {
+      "quantity": "k (studies pooled)",
+      "claimed": 8,
+      "recomputed": 5,
+      "verdict": "diverges",
+      "tolerance": "exact",
+      "reason": ""
+    }
+  ],
+  "flags": [
+    {
+      "id": "placeholder-artifact",
+      "severity": "low",
+      "title": "Template/placeholder artifact",
+      "detail": "literal 'n participants' (unfilled count token)",
+      "subject": "...ight randomized trials across n participants and found a rate ratio of 0.7..."
+    },
+    {
+      "id": "k-mismatch",
+      "severity": "medium",
+      "title": "Study-count (k) mismatch",
+      "detail": "paper claims k=8 trials but the study table lists 5",
+      "subject": ""
+    },
+    {
+      "id": "citation-not-a-trial",
+      "severity": "high",
+      "title": "Citation is not a primary trial",
+      "detail": "PMID 42009258 is ['Journal Article', 'Systematic Review', 'Meta-Analysis'], not a primary trial",
+      "subject": "Miscited synthesis (a GLP-1 systematic review/meta-analysis)"
+    },
+    {
+      "id": "citation-not-real",
+      "severity": "high",
+      "title": "Cited trial does not exist",
+      "detail": "NCT09999999 does not exist on ClinicalTrials.gov",
+      "subject": "Phantom Trial (fabricated registration)"
+    }
+  ],
+  "sourcing": [
+    {
+      "name": "Real RCT A (NAVIGATOR)",
+      "queried": {
+        "pmid": "33979488",
+        "nct": "NCT03347279"
+      },
+      "pubmed": {
+        "id": "33979488",
+        "exists": true,
+        "title": "Tezepelumab in Adults and Adolescents with Severe, Uncontrolled Asthma",
+        "authors": [
+          "Menzies-Gow A",
+          "Corren J",
+          "Bourdin A",
+          "Chupp G",
+          "Israel E",
+          "Wechsler ME",
+          "Brightling CE",
+          "Griffiths JM",
+          "Hellqvist \u00c5",
+          "Bowen K",
+          "Kaur P",
+          "Almqvist G",
+          "Ponnarambil S",
+          "Colice G"
+        ],
+        "year": "2021",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa2034975",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT03347279",
+        "exists": true,
+        "title": "Study to Evaluate Tezepelumab in Adults & Adolescents With Severe Uncontrolled Asthma",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 1061,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "Real RCT B (MENSA)",
+      "queried": {
+        "pmid": "25199059",
+        "nct": "NCT01691521"
+      },
+      "pubmed": {
+        "id": "25199059",
+        "exists": true,
+        "title": "Mepolizumab treatment in patients with severe eosinophilic asthma",
+        "authors": [
+          "Ortega HG",
+          "Liu MC",
+          "Pavord ID",
+          "Brusselle GG",
+          "FitzGerald JM",
+          "Chetta A",
+          "Humbert M",
+          "Katz LE",
+          "Keene ON",
+          "Yancey SW",
+          "Chanez P",
+          "MENSA Investigators"
+        ],
+        "year": "2014",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1403290",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01691521",
+        "exists": true,
+        "title": "Efficacy and Safety Study of Mepolizumab Adjunctive Therapy in Subjects With Severe Uncontrolled Refractory Asthma",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 580,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "Real RCT C (SIROCCO)",
+      "queried": {
+        "pmid": "27609408",
+        "nct": "NCT01928771"
+      },
+      "pubmed": {
+        "id": "27609408",
+        "exists": true,
+        "title": "Efficacy and safety of benralizumab for patients with severe asthma uncontrolled with high-dosage inhaled corticosteroids and long-acting \u03b2(2)-agonists (SIROCCO): a randomised, multicentre, placebo-controlled phase 3 trial",
+        "authors": [
+          "Bleecker ER",
+          "FitzGerald JM",
+          "Chanez P",
+          "Papi A",
+          "Weinstein SF",
+          "Barker P",
+          "Sproule S",
+          "Gilmartin G",
+          "Aurivillius M",
+          "Werkstr\u00f6m V",
+          "Goldman M",
+          "SIROCCO study investigators"
+        ],
+        "year": "2016",
+        "journal": "Lancet",
+        "doi": "10.1016/S0140-6736(16)31324-1",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01928771",
+        "exists": true,
+        "title": "Efficacy and Safety Study of Benralizumab Added to High-dose Inhaled Corticosteroid Plus LABA in Patients With Uncontrolled Asthma",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 2681,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "Miscited synthesis (a GLP-1 systematic review/meta-analysis)",
+      "queried": {
+        "pmid": "42009258"
+      },
+      "pubmed": {
+        "id": "42009258",
+        "exists": true,
+        "title": "GLP-1-based therapies and limb outcomes in PAD: a systematic review and meta-analysis of real-world studies",
+        "authors": [
+          "Boccatonda A",
+          "D'Ardes D",
+          "Brighenti A",
+          "Cipollone A",
+          "Simeone PG",
+          "Guagnano MT",
+          "Serra C",
+          "Santilli F",
+          "Cipollone F"
+        ],
+        "year": "2026",
+        "journal": "Diabetes Res Clin Pract",
+        "doi": "10.1016/j.diabres.2026.113271",
+        "pubtypes": [
+          "Journal Article",
+          "Systematic Review",
+          "Meta-Analysis"
+        ],
+        "is_trial": false,
+        "is_synthesis": true,
+        "error": null
+      },
+      "ctgov": null,
+      "verdict": "not-a-trial",
+      "notes": [
+        "PMID 42009258 is ['Journal Article', 'Systematic Review', 'Meta-Analysis'], not a primary trial"
+      ]
+    },
+    {
+      "name": "Phantom Trial (fabricated registration)",
+      "queried": {
+        "nct": "NCT09999999"
+      },
+      "pubmed": null,
+      "ctgov": {
+        "id": "NCT09999999",
+        "exists": false,
+        "error": "NCT not found on ClinicalTrials.gov"
+      },
+      "verdict": "not-real",
+      "notes": [
+        "NCT09999999 does not exist on ClinicalTrials.gov"
+      ]
+    }
+  ]
+}

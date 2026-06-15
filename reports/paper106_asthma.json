@@ -1,0 +1,419 @@
+{
+  "title": "Add-on biologics for severe-asthma exacerbations",
+  "source": "fixture:106 (snapshot of RapidMeta asthma-biologics dashboard)",
+  "overall": "REPRODUCES",
+  "overall_detail": "Every claimed quantity that could be recomputed agreed within tolerance with the independently recomputed values.",
+  "measure": "RR",
+  "generated": "2026-06-15 20:44 UTC",
+  "recomputed": {
+    "measure": "RR",
+    "est": 0.523469597485757,
+    "lci": 0.4424624335512022,
+    "uci": 0.6193077620005238,
+    "log_est": -0.6472763258388758,
+    "se": 0.08577881502885779,
+    "Q": 16.18079952668053,
+    "Qdf": 5,
+    "Qp": 0.006346400003666971,
+    "I2": 69.09917837029316,
+    "tau2": 0.02838593669830397,
+    "tau2_dl": 0.0331120777248297,
+    "pi_lci": 0.3219945834969249,
+    "pi_uci": 0.8510094067918302,
+    "k": 6,
+    "estimator": "REML"
+  },
+  "claims": [
+    {
+      "quantity": "pooled RR",
+      "claimed": 0.52,
+      "recomputed": 0.523469597485757,
+      "verdict": "reproduces",
+      "tolerance": "\u00b15% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "95% CI lower",
+      "claimed": 0.44,
+      "recomputed": 0.4424624335512022,
+      "verdict": "reproduces",
+      "tolerance": "\u00b18% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "95% CI upper",
+      "claimed": 0.62,
+      "recomputed": 0.6193077620005238,
+      "verdict": "reproduces",
+      "tolerance": "\u00b18% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "I^2 (%)",
+      "claimed": 69.0,
+      "recomputed": 69.1,
+      "verdict": "reproduces",
+      "tolerance": "\u00b15.0 pts",
+      "reason": ""
+    },
+    {
+      "quantity": "Cochran's Q",
+      "claimed": 16.2,
+      "recomputed": 16.181,
+      "verdict": "reproduces",
+      "tolerance": "\u00b11.0",
+      "reason": ""
+    },
+    {
+      "quantity": "k (studies pooled)",
+      "claimed": 6,
+      "recomputed": 6,
+      "verdict": "reproduces",
+      "tolerance": "exact",
+      "reason": ""
+    },
+    {
+      "quantity": "prediction interval lower",
+      "claimed": 0.32,
+      "recomputed": 0.322,
+      "verdict": "reproduces",
+      "tolerance": "\u00b115%",
+      "reason": ""
+    },
+    {
+      "quantity": "prediction interval upper",
+      "claimed": 0.85,
+      "recomputed": 0.851,
+      "verdict": "reproduces",
+      "tolerance": "\u00b115%",
+      "reason": ""
+    }
+  ],
+  "flags": [],
+  "sourcing": [
+    {
+      "name": "EXTRA",
+      "queried": {
+        "pmid": "21536936",
+        "nct": "NCT00314574"
+      },
+      "pubmed": {
+        "id": "21536936",
+        "exists": true,
+        "title": "Omalizumab in severe allergic asthma inadequately controlled with standard therapy: a randomized trial",
+        "authors": [
+          "Hanania NA",
+          "Alpan O",
+          "Hamilos DL",
+          "Condemi JJ",
+          "Reyes-Rivera I",
+          "Zhu J",
+          "Rosen KE",
+          "Eisner MD",
+          "Wong DA",
+          "Busse W"
+        ],
+        "year": "2011",
+        "journal": "Ann Intern Med",
+        "doi": "10.7326/0003-4819-154-9-201105030-00002",
+        "pubtypes": [
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT00314574",
+        "exists": true,
+        "title": "A Study of Omalizumab (Xolair) in Subjects With Moderate to Severe Persistent Asthma (EXTRA)",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 850,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "MENSA",
+      "queried": {
+        "pmid": "25199059",
+        "nct": "NCT01691521"
+      },
+      "pubmed": {
+        "id": "25199059",
+        "exists": true,
+        "title": "Mepolizumab treatment in patients with severe eosinophilic asthma",
+        "authors": [
+          "Ortega HG",
+          "Liu MC",
+          "Pavord ID",
+          "Brusselle GG",
+          "FitzGerald JM",
+          "Chetta A",
+          "Humbert M",
+          "Katz LE",
+          "Keene ON",
+          "Yancey SW",
+          "Chanez P",
+          "MENSA Investigators"
+        ],
+        "year": "2014",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1403290",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01691521",
+        "exists": true,
+        "title": "Efficacy and Safety Study of Mepolizumab Adjunctive Therapy in Subjects With Severe Uncontrolled Refractory Asthma",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 580,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "SIROCCO",
+      "queried": {
+        "pmid": "27609408",
+        "nct": "NCT01928771"
+      },
+      "pubmed": {
+        "id": "27609408",
+        "exists": true,
+        "title": "Efficacy and safety of benralizumab for patients with severe asthma uncontrolled with high-dosage inhaled corticosteroids and long-acting \u03b2(2)-agonists (SIROCCO): a randomised, multicentre, placebo-controlled phase 3 trial",
+        "authors": [
+          "Bleecker ER",
+          "FitzGerald JM",
+          "Chanez P",
+          "Papi A",
+          "Weinstein SF",
+          "Barker P",
+          "Sproule S",
+          "Gilmartin G",
+          "Aurivillius M",
+          "Werkstr\u00f6m V",
+          "Goldman M",
+          "SIROCCO study investigators"
+        ],
+        "year": "2016",
+        "journal": "Lancet",
+        "doi": "10.1016/S0140-6736(16)31324-1",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01928771",
+        "exists": true,
+        "title": "Efficacy and Safety Study of Benralizumab Added to High-dose Inhaled Corticosteroid Plus LABA in Patients With Uncontrolled Asthma",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 2681,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "Reslizumab 3082 (Castro 2015, Study 1)",
+      "queried": {
+        "pmid": "25736990",
+        "nct": "NCT01287039"
+      },
+      "pubmed": {
+        "id": "25736990",
+        "exists": true,
+        "title": "Reslizumab for inadequately controlled asthma with elevated blood eosinophil counts: results from two multicentre, parallel, double-blind, randomised, placebo-controlled, phase 3 trials",
+        "authors": [
+          "Castro M",
+          "Zangrilli J",
+          "Wechsler ME",
+          "Bateman ED",
+          "Brusselle GG",
+          "Bardin P",
+          "Murphy K",
+          "Maspero JF",
+          "O'Brien C",
+          "Korn S"
+        ],
+        "year": "2015",
+        "journal": "Lancet Respir Med",
+        "doi": "10.1016/S2213-2600(15)00042-9",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01287039",
+        "exists": true,
+        "title": "A Study to Evaluate the Efficacy and Safety of Reslizumab (3.0 mg/kg) in the Reduction of Clinical Asthma Exacerbations in Patients (12-75 Years of Age) With Eosinophilic Asthma",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 489,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "QUEST",
+      "queried": {
+        "pmid": "29782217",
+        "nct": "NCT02414854"
+      },
+      "pubmed": {
+        "id": "29782217",
+        "exists": true,
+        "title": "Dupilumab Efficacy and Safety in Moderate-to-Severe Uncontrolled Asthma",
+        "authors": [
+          "Castro M",
+          "Corren J",
+          "Pavord ID",
+          "Maspero J",
+          "Wenzel S",
+          "Rabe KF",
+          "Busse WW",
+          "Ford L",
+          "Sher L",
+          "FitzGerald JM",
+          "Katelaris C",
+          "Tohda Y",
+          "Zhang B",
+          "Staudinger H",
+          "Pirozzi G",
+          "Amin N",
+          "Ruddy M",
+          "Akinlade B",
+          "Khan A",
+          "Chao J",
+          "Martincova R",
+          "Graham NMH",
+          "Hamilton JD",
+          "Swanson BN",
+          "Stahl N",
+          "Yancopoulos GD",
+          "Teper A"
+        ],
+        "year": "2018",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1804092",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT02414854",
+        "exists": true,
+        "title": "Evaluation of Dupilumab in Patients With Persistent Asthma (Liberty Asthma Quest)",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 1902,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "NAVIGATOR",
+      "queried": {
+        "pmid": "33979488",
+        "nct": "NCT03347279"
+      },
+      "pubmed": {
+        "id": "33979488",
+        "exists": true,
+        "title": "Tezepelumab in Adults and Adolescents with Severe, Uncontrolled Asthma",
+        "authors": [
+          "Menzies-Gow A",
+          "Corren J",
+          "Bourdin A",
+          "Chupp G",
+          "Israel E",
+          "Wechsler ME",
+          "Brightling CE",
+          "Griffiths JM",
+          "Hellqvist \u00c5",
+          "Bowen K",
+          "Kaur P",
+          "Almqvist G",
+          "Ponnarambil S",
+          "Colice G"
+        ],
+        "year": "2021",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa2034975",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT03347279",
+        "exists": true,
+        "title": "Study to Evaluate Tezepelumab in Adults & Adolescents With Severe Uncontrolled Asthma",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 1061,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    }
+  ]
+}

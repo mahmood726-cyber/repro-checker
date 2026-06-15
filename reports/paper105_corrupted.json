@@ -1,0 +1,313 @@
+{
+  "title": "JAK inhibitors for ACR20 response in rheumatoid arthritis [corrupted: RA-BEAM control events 196->396]",
+  "source": "fixture:105-corrupted (planted transcription error)",
+  "overall": "DIVERGES \u2014 does not reproduce",
+  "overall_detail": "The pooled estimate recomputes to 2.165 but the paper claims 3.4. 7 claimed quantity(ies) diverge.",
+  "measure": "OR",
+  "generated": "2026-06-15 20:44 UTC",
+  "recomputed": {
+    "measure": "OR",
+    "est": 2.165443815208157,
+    "lci": 0.8501800729893405,
+    "uci": 5.515474975008091,
+    "log_est": 0.7726253359229603,
+    "se": 0.47701511043217204,
+    "Q": 101.49818643497714,
+    "Qdf": 3,
+    "Qp": 7.4017665786283815e-22,
+    "I2": 97.04428216367995,
+    "tau2": 0.8748350557610827,
+    "tau2_dl": 1.0253496751468094,
+    "pi_lci": 0.07693929383980855,
+    "pi_uci": 60.94606127509172,
+    "k": 4,
+    "estimator": "REML"
+  },
+  "claims": [
+    {
+      "quantity": "pooled OR",
+      "claimed": 3.4,
+      "recomputed": 2.165443815208157,
+      "verdict": "diverges",
+      "tolerance": "\u00b15% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "95% CI lower",
+      "claimed": 2.89,
+      "recomputed": 0.8501800729893405,
+      "verdict": "diverges",
+      "tolerance": "\u00b18% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "95% CI upper",
+      "claimed": 3.99,
+      "recomputed": 5.515474975008091,
+      "verdict": "diverges",
+      "tolerance": "\u00b18% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "I^2 (%)",
+      "claimed": 0.0,
+      "recomputed": 97.0,
+      "verdict": "diverges",
+      "tolerance": "\u00b15.0 pts",
+      "reason": ""
+    },
+    {
+      "quantity": "Cochran's Q",
+      "claimed": 0.74,
+      "recomputed": 101.498,
+      "verdict": "diverges",
+      "tolerance": "\u00b11.0",
+      "reason": ""
+    },
+    {
+      "quantity": "k (studies pooled)",
+      "claimed": 4,
+      "recomputed": 4,
+      "verdict": "reproduces",
+      "tolerance": "exact",
+      "reason": ""
+    },
+    {
+      "quantity": "prediction interval lower",
+      "claimed": 2.61,
+      "recomputed": 0.077,
+      "verdict": "diverges",
+      "tolerance": "\u00b115%",
+      "reason": ""
+    },
+    {
+      "quantity": "prediction interval upper",
+      "claimed": 4.42,
+      "recomputed": 60.946,
+      "verdict": "diverges",
+      "tolerance": "\u00b115%",
+      "reason": ""
+    }
+  ],
+  "flags": [],
+  "sourcing": [
+    {
+      "name": "ORAL Solo",
+      "queried": {
+        "pmid": "22873530",
+        "nct": "NCT00814307"
+      },
+      "pubmed": {
+        "id": "22873530",
+        "exists": true,
+        "title": "Placebo-controlled trial of tofacitinib monotherapy in rheumatoid arthritis",
+        "authors": [
+          "Fleischmann R",
+          "Kremer J",
+          "Cush J",
+          "Schulze-Koops H",
+          "Connell CA",
+          "Bradley JD",
+          "Gruben D",
+          "Wallenstein GV",
+          "Zwillich SH",
+          "Kanik KS",
+          "ORAL Solo Investigators"
+        ],
+        "year": "2012",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1109071",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT00814307",
+        "exists": true,
+        "title": "A Phase 3 Study Comparing 2 Doses of CP-690,550 vs. Placebo for Treatment of Rheumatoid Arthritis",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 611,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "RA-BEAM",
+      "queried": {
+        "pmid": "28199814",
+        "nct": "NCT01710358"
+      },
+      "pubmed": {
+        "id": "28199814",
+        "exists": true,
+        "title": "Baricitinib versus Placebo or Adalimumab in Rheumatoid Arthritis",
+        "authors": [
+          "Taylor PC",
+          "Keystone EC",
+          "van der Heijde D",
+          "Weinblatt ME",
+          "Del Carmen Morales L",
+          "Reyes Gonzaga J",
+          "Yakushin S",
+          "Ishii T",
+          "Emoto K",
+          "Beattie S",
+          "Arora V",
+          "Gaich C",
+          "Rooney T",
+          "Schlichting D",
+          "Macias WL",
+          "de Bono S",
+          "Tanaka Y"
+        ],
+        "year": "2017",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1608345",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Comparative Study",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01710358",
+        "exists": true,
+        "title": "A Study in Moderate to Severe Rheumatoid Arthritis",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 1307,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "SELECT-NEXT",
+      "queried": {
+        "pmid": "29908669",
+        "nct": "NCT02675426"
+      },
+      "pubmed": {
+        "id": "29908669",
+        "exists": true,
+        "title": "Safety and efficacy of upadacitinib in patients with rheumatoid arthritis and inadequate response to conventional synthetic disease-modifying anti-rheumatic drugs (SELECT-NEXT): a randomised, double-blind, placebo-controlled phase 3 trial",
+        "authors": [
+          "Burmester GR",
+          "Kremer JM",
+          "Van den Bosch F",
+          "Kivitz A",
+          "Bessette L",
+          "Li Y",
+          "Zhou Y",
+          "Othman AA",
+          "Pangan AL",
+          "Camp HS"
+        ],
+        "year": "2018",
+        "journal": "Lancet",
+        "doi": "10.1016/S0140-6736(18)31115-2",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT02675426",
+        "exists": true,
+        "title": "A Study Comparing Upadacitinib (ABT-494) to Placebo in Adults With Rheumatoid Arthritis on a Stable Dose of Conventional Synthetic Disease-Modifying Antirheumatic Drugs (csDMARDs) Who Have an Inadequate Response to csDMARDs Alone",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 661,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "FINCH 1",
+      "queried": {
+        "pmid": "33504485",
+        "nct": "NCT02889796"
+      },
+      "pubmed": {
+        "id": "33504485",
+        "exists": true,
+        "title": "Filgotinib versus placebo or adalimumab in patients with rheumatoid arthritis and inadequate response to methotrexate: a phase III randomised clinical trial",
+        "authors": [
+          "Combe B",
+          "Kivitz A",
+          "Tanaka Y",
+          "van der Heijde D",
+          "Simon JA",
+          "Baraf HSB",
+          "Kumar U",
+          "Matzkies F",
+          "Bartok B",
+          "Ye L",
+          "Guo Y",
+          "Tasset C",
+          "Sundy JS",
+          "Jahreis A",
+          "Genovese MC",
+          "Mozaffarian N",
+          "Landew\u00e9 RBM",
+          "Bae SC",
+          "Keystone EC",
+          "Nash P"
+        ],
+        "year": "2021",
+        "journal": "Ann Rheum Dis",
+        "doi": "10.1136/annrheumdis-2020-219214",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT02889796",
+        "exists": true,
+        "title": "Filgotinib in Combination With Methotrexate in Adults With Moderately to Severely Active Rheumatoid Arthritis Who Have an Inadequate Response to Methotrexate",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 1759,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    }
+  ]
+}

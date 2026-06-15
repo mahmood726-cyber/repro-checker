@@ -1,0 +1,563 @@
+{
+  "title": "GLP-1 receptor agonists and 3-point MACE in type 2 diabetes",
+  "source": "fixture:glp1-elixa (REAL published per-trial MACE HRs; the claimed pooled HR of 0.62 is a planted over-statement reproducing the documented INCRETIN-style extraction error)",
+  "overall": "DIVERGES \u2014 does not reproduce",
+  "overall_detail": "The pooled estimate recomputes to 0.8621 but the paper claims 0.62. 3 claimed quantity(ies) diverge.",
+  "measure": "HR",
+  "generated": "2026-06-15 20:44 UTC",
+  "recomputed": {
+    "measure": "OR",
+    "est": 0.8620536218705963,
+    "lci": 0.8021155723302013,
+    "uci": 0.9264705394278162,
+    "log_est": -0.148437803906779,
+    "se": 0.03676841664002748,
+    "Q": 12.615583662594442,
+    "Qdf": 7,
+    "Qp": 0.08204726676502137,
+    "I2": 44.513070602074514,
+    "tau2": 0.004648299680381529,
+    "tau2_dl": 0.004177917135212877,
+    "pi_lci": 0.7177741426333363,
+    "pi_uci": 1.035334658690586,
+    "k": 8,
+    "estimator": "REML"
+  },
+  "claims": [
+    {
+      "quantity": "pooled HR",
+      "claimed": 0.62,
+      "recomputed": 0.8620536218705963,
+      "verdict": "diverges",
+      "tolerance": "\u00b15% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "95% CI lower",
+      "claimed": 0.55,
+      "recomputed": 0.8021155723302013,
+      "verdict": "diverges",
+      "tolerance": "\u00b18% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "95% CI upper",
+      "claimed": 0.7,
+      "recomputed": 0.9264705394278162,
+      "verdict": "diverges",
+      "tolerance": "\u00b18% relative (log scale)",
+      "reason": ""
+    },
+    {
+      "quantity": "I^2 (%)",
+      "claimed": 40.0,
+      "recomputed": 44.5,
+      "verdict": "reproduces",
+      "tolerance": "\u00b15.0 pts",
+      "reason": ""
+    },
+    {
+      "quantity": "k (studies pooled)",
+      "claimed": 8,
+      "recomputed": 8,
+      "verdict": "reproduces",
+      "tolerance": "exact",
+      "reason": ""
+    }
+  ],
+  "flags": [],
+  "sourcing": [
+    {
+      "name": "ELIXA (lixisenatide)",
+      "queried": {
+        "pmid": "26630143",
+        "nct": "NCT01147250"
+      },
+      "pubmed": {
+        "id": "26630143",
+        "exists": true,
+        "title": "Lixisenatide in Patients with Type 2 Diabetes and Acute Coronary Syndrome",
+        "authors": [
+          "Pfeffer MA",
+          "Claggett B",
+          "Diaz R",
+          "Dickstein K",
+          "Gerstein HC",
+          "K\u00f8ber LV",
+          "Lawson FC",
+          "Ping L",
+          "Wei X",
+          "Lewis EF",
+          "Maggioni AP",
+          "McMurray JJ",
+          "Probstfield JL",
+          "Riddle MC",
+          "Solomon SD",
+          "Tardif JC",
+          "ELIXA Investigators"
+        ],
+        "year": "2015",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1509225",
+        "pubtypes": [
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01147250",
+        "exists": true,
+        "title": "Evaluation of Cardiovascular Outcomes in Patients With Type 2 Diabetes After Acute Coronary Syndrome During Treatment With AVE0010 (Lixisenatide)",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 6068,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "LEADER (liraglutide)",
+      "queried": {
+        "pmid": "27295427",
+        "nct": "NCT01179048"
+      },
+      "pubmed": {
+        "id": "27295427",
+        "exists": true,
+        "title": "Liraglutide and Cardiovascular Outcomes in Type 2 Diabetes",
+        "authors": [
+          "Marso SP",
+          "Daniels GH",
+          "Brown-Frandsen K",
+          "Kristensen P",
+          "Mann JF",
+          "Nauck MA",
+          "Nissen SE",
+          "Pocock S",
+          "Poulter NR",
+          "Ravn LS",
+          "Steinberg WM",
+          "Stockner M",
+          "Zinman B",
+          "Bergenstal RM",
+          "Buse JB",
+          "LEADER Steering Committee",
+          "LEADER Trial Investigators"
+        ],
+        "year": "2016",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1603827",
+        "pubtypes": [
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, N.I.H., Extramural",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01179048",
+        "exists": true,
+        "title": "Liraglutide Effect and Action in Diabetes: Evaluation of Cardiovascular Outcome Results",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 9341,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "SUSTAIN-6 (semaglutide SC)",
+      "queried": {
+        "pmid": "27633186",
+        "nct": "NCT01720446"
+      },
+      "pubmed": {
+        "id": "27633186",
+        "exists": true,
+        "title": "Semaglutide and Cardiovascular Outcomes in Patients with Type 2 Diabetes",
+        "authors": [
+          "Marso SP",
+          "Bain SC",
+          "Consoli A",
+          "Eliaschewitz FG",
+          "J\u00f3dar E",
+          "Leiter LA",
+          "Lingvay I",
+          "Rosenstock J",
+          "Seufert J",
+          "Warren ML",
+          "Woo V",
+          "Hansen O",
+          "Holst AG",
+          "Pettersson J",
+          "Vilsb\u00f8ll T",
+          "SUSTAIN-6 Investigators"
+        ],
+        "year": "2016",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1607141",
+        "pubtypes": [
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01720446",
+        "exists": true,
+        "title": "Trial to Evaluate Cardiovascular and Other Long-term Outcomes With Semaglutide in Subjects With Type 2 Diabetes",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 3297,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "EXSCEL (exenatide QW)",
+      "queried": {
+        "pmid": "28910237",
+        "nct": "NCT01144338"
+      },
+      "pubmed": {
+        "id": "28910237",
+        "exists": true,
+        "title": "Effects of Once-Weekly Exenatide on Cardiovascular Outcomes in Type 2 Diabetes",
+        "authors": [
+          "Holman RR",
+          "Bethel MA",
+          "Mentz RJ",
+          "Thompson VP",
+          "Lokhnygina Y",
+          "Buse JB",
+          "Chan JC",
+          "Choi J",
+          "Gustavson SM",
+          "Iqbal N",
+          "Maggioni AP",
+          "Marso SP",
+          "\u00d6hman P",
+          "Pagidipati NJ",
+          "Poulter N",
+          "Ramachandran A",
+          "Zinman B",
+          "Hernandez AF",
+          "EXSCEL Study Group"
+        ],
+        "year": "2017",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1612917",
+        "pubtypes": [
+          "Comparative Study",
+          "Journal Article",
+          "Multicenter Study",
+          "Pragmatic Clinical Trial",
+          "Randomized Controlled Trial"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01144338",
+        "exists": true,
+        "title": "Exenatide Study of Cardiovascular Event Lowering Trial (EXSCEL): A Trial To Evaluate Cardiovascular Outcomes After Treatment With Exenatide Once Weekly In Patients With Type 2 Diabetes Mellitus",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 14752,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "HARMONY Outcomes (albiglutide)",
+      "queried": {
+        "pmid": "30293770",
+        "nct": "NCT02465515"
+      },
+      "pubmed": {
+        "id": "30293770",
+        "exists": true,
+        "title": "Efficacy and safety of LY3298176, a novel dual GIP and GLP-1 receptor agonist, in patients with type 2 diabetes: a randomised, placebo-controlled and active comparator-controlled phase 2 trial",
+        "authors": [
+          "Frias JP",
+          "Nauck MA",
+          "Van J",
+          "Kutner ME",
+          "Cui X",
+          "Benson C",
+          "Urva S",
+          "Gimeno RE",
+          "Milicevic Z",
+          "Robins D",
+          "Haupt A"
+        ],
+        "year": "2018",
+        "journal": "Lancet",
+        "doi": "10.1016/S0140-6736(18)32260-8",
+        "pubtypes": [
+          "Clinical Trial, Phase II",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT02465515",
+        "exists": true,
+        "title": "Effect of Albiglutide, When Added to Standard Blood Glucose Lowering Therapies, on Major Cardiovascular Events in Subjects With Type 2 Diabetes Mellitus",
+        "phases": [
+          "PHASE4"
+        ],
+        "enrollment": 9463,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "REWIND (dulaglutide)",
+      "queried": {
+        "pmid": "31189511",
+        "nct": "NCT01394952"
+      },
+      "pubmed": {
+        "id": "31189511",
+        "exists": true,
+        "title": "Dulaglutide and cardiovascular outcomes in type 2 diabetes (REWIND): a double-blind, randomised placebo-controlled trial",
+        "authors": [
+          "Gerstein HC",
+          "Colhoun HM",
+          "Dagenais GR",
+          "Diaz R",
+          "Lakshmanan M",
+          "Pais P",
+          "Probstfield J",
+          "Riesmeyer JS",
+          "Riddle MC",
+          "Ryd\u00e9n L",
+          "Xavier D",
+          "Atisso CM",
+          "Dyal L",
+          "Hall S",
+          "Rao-Melacini P",
+          "Wong G",
+          "Avezum A",
+          "Basile J",
+          "Chung N",
+          "Conget I",
+          "Cushman WC",
+          "Franek E",
+          "Hancu N",
+          "Hanefeld M",
+          "Holt S",
+          "Jansky P",
+          "Keltai M",
+          "Lanas F",
+          "Leiter LA",
+          "Lopez-Jaramillo P",
+          "Cardona Munoz EG",
+          "Pirags V",
+          "Pogosova N",
+          "Raubenheimer PJ",
+          "Shaw JE",
+          "Sheu WH",
+          "Temelkova-Kurktschiev T",
+          "REWIND Investigators"
+        ],
+        "year": "2019",
+        "journal": "Lancet",
+        "doi": "10.1016/S0140-6736(19)31149-3",
+        "pubtypes": [
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT01394952",
+        "exists": true,
+        "title": "Researching Cardiovascular Events With a Weekly Incretin in Diabetes (REWIND)",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 9901,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "PIONEER 6 (oral semaglutide)",
+      "queried": {
+        "pmid": "31185157",
+        "nct": "NCT02692716"
+      },
+      "pubmed": {
+        "id": "31185157",
+        "exists": true,
+        "title": "Oral Semaglutide and Cardiovascular Outcomes in Patients with Type 2 Diabetes",
+        "authors": [
+          "Husain M",
+          "Birkenfeld AL",
+          "Donsmark M",
+          "Dungan K",
+          "Eliaschewitz FG",
+          "Franco DR",
+          "Jeppesen OK",
+          "Lingvay I",
+          "Mosenzon O",
+          "Pedersen SD",
+          "Tack CJ",
+          "Thomsen M",
+          "Vilsb\u00f8ll T",
+          "Warren ML",
+          "Bain SC",
+          "PIONEER 6 Investigators"
+        ],
+        "year": "2019",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa1901118",
+        "pubtypes": [
+          "Clinical Trial, Phase III",
+          "Equivalence Trial",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT02692716",
+        "exists": true,
+        "title": "A Trial Investigating the Cardiovascular Safety of Oral Semaglutide in Subjects With Type 2 Diabetes",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 3183,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    },
+    {
+      "name": "AMPLITUDE-O (efpeglenatide)",
+      "queried": {
+        "pmid": "34010530",
+        "nct": "NCT03496298"
+      },
+      "pubmed": {
+        "id": "34010530",
+        "exists": true,
+        "title": "Endovascular Therapy for Stroke Due to Basilar-Artery Occlusion",
+        "authors": [
+          "Langezaal LCM",
+          "van der Hoeven EJRJ",
+          "Mont'Alverne FJA",
+          "de Carvalho JJF",
+          "Lima FO",
+          "Dippel DWJ",
+          "van der Lugt A",
+          "Lo RTH",
+          "Boiten J",
+          "Lycklama \u00c0 Nijeholt GJ",
+          "Staals J",
+          "van Zwam WH",
+          "Nederkoorn PJ",
+          "Majoie CBLM",
+          "Gerber JC",
+          "Mazighi M",
+          "Piotin M",
+          "Zini A",
+          "Vallone S",
+          "Hofmeijer J",
+          "Martins SO",
+          "Nolte CH",
+          "Szabo K",
+          "Dias FA",
+          "Abud DG",
+          "Wermer MJH",
+          "Remmers MJM",
+          "Schneider H",
+          "Rueckert CM",
+          "de Laat KF",
+          "Yoo AJ",
+          "van Doormaal PJ",
+          "van Es ACGM",
+          "Emmer BJ",
+          "Michel P",
+          "Puetz V",
+          "Audebert HJ",
+          "Pontes-Neto OM",
+          "Vos JA",
+          "Kappelle LJ",
+          "Algra A",
+          "Schonewille WJ",
+          "BASICS Study Group"
+        ],
+        "year": "2021",
+        "journal": "N Engl J Med",
+        "doi": "10.1056/NEJMoa2030297",
+        "pubtypes": [
+          "Comparative Study",
+          "Journal Article",
+          "Multicenter Study",
+          "Randomized Controlled Trial",
+          "Research Support, Non-U.S. Gov't"
+        ],
+        "is_trial": true,
+        "is_synthesis": false,
+        "error": null
+      },
+      "ctgov": {
+        "id": "NCT03496298",
+        "exists": true,
+        "title": "Effect of Efpeglenatide on Cardiovascular Outcomes",
+        "phases": [
+          "PHASE3"
+        ],
+        "enrollment": 4076,
+        "has_results": true,
+        "error": null
+      },
+      "verdict": "real-trial",
+      "notes": []
+    }
+  ]
+}

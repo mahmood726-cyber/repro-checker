@@ -68,7 +68,7 @@ re-sourcing:
 |---|---|
 | `reprocheck/` | the shared engine + CLI |
 | `synthesis_gate.py` | Synthēsis OJS pre-acceptance gate |
-| `web/index.html` | standalone offline web UI |
+| `docs/index.html` | standalone offline web UI |
 | `fixtures/` | validation fixtures (self-contained JSON) |
 | `scripts/` | fixture generator + validation runner |
 | `tests/` | pytest (offline-deterministic + network-gated) |
