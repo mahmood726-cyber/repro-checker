@@ -1,0 +1,59 @@
+{
+  "title": "Synthetic structural-defect meta-analysis (#30 stand-in)",
+  "source": "fixture:paper30-structural (SYNTHETIC; exercises k-mismatch, fabricated NCT, miscited review, placeholder artifact)",
+  "claimed": {
+    "measure": "RR",
+    "est": 0.7,
+    "lci": 0.6,
+    "uci": 0.82,
+    "I2": 30.0,
+    "k": 8,
+    "method": "random-effects"
+  },
+  "trials": [
+    {
+      "name": "Real RCT A (NAVIGATOR)",
+      "pmid": "33979488",
+      "nct": "NCT03347279",
+      "year": 2021,
+      "effect": 0.44,
+      "elci": 0.37,
+      "euci": 0.53
+    },
+    {
+      "name": "Real RCT B (MENSA)",
+      "pmid": "25199059",
+      "nct": "NCT01691521",
+      "year": 2014,
+      "effect": 0.47,
+      "elci": 0.35,
+      "euci": 0.63
+    },
+    {
+      "name": "Real RCT C (SIROCCO)",
+      "pmid": "27609408",
+      "nct": "NCT01928771",
+      "year": 2016,
+      "effect": 0.49,
+      "elci": 0.37,
+      "euci": 0.64
+    },
+    {
+      "name": "Miscited synthesis (a GLP-1 systematic review/meta-analysis)",
+      "pmid": "42009258",
+      "year": 2025,
+      "effect": 0.86,
+      "elci": 0.8,
+      "euci": 0.93
+    },
+    {
+      "name": "Phantom Trial (fabricated registration)",
+      "nct": "NCT09999999",
+      "year": 2020,
+      "effect": 0.55,
+      "elci": 0.4,
+      "euci": 0.75
+    }
+  ],
+  "raw_text": "We pooled eight randomized trials across n participants and found a rate ratio of 0.70 (95% CI 0.60 to 0.82)."
+}

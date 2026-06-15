@@ -1,0 +1,3 @@
+# Engine + CLI: standard library only (urllib, json, math, argparse).
+# Dev / test only:
+pytest>=7.0

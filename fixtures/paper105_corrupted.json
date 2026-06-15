@@ -1,0 +1,60 @@
+{
+  "title": "JAK inhibitors for ACR20 response in rheumatoid arthritis [corrupted: RA-BEAM control events 196->396]",
+  "source": "fixture:105-corrupted (planted transcription error)",
+  "claimed": {
+    "measure": "OR",
+    "est": 3.4,
+    "lci": 2.89,
+    "uci": 3.99,
+    "I2": 0.0,
+    "Q": 0.74,
+    "pi_lci": 2.61,
+    "pi_uci": 4.42,
+    "k": 4,
+    "n_stated": 2228,
+    "method": "inverse-variance random-effects (DL/REML)"
+  },
+  "trials": [
+    {
+      "name": "ORAL Solo",
+      "pmid": "22873530",
+      "nct": "NCT00814307",
+      "year": 2012,
+      "tE": 144,
+      "tN": 241,
+      "cE": 32,
+      "cN": 120
+    },
+    {
+      "name": "RA-BEAM",
+      "pmid": "28199814",
+      "nct": "NCT01710358",
+      "year": 2017,
+      "tE": 339,
+      "tN": 487,
+      "cE": 396,
+      "cN": 488
+    },
+    {
+      "name": "SELECT-NEXT",
+      "pmid": "29908669",
+      "nct": "NCT02675426",
+      "year": 2018,
+      "tE": 141,
+      "tN": 221,
+      "cE": 79,
+      "cN": 221
+    },
+    {
+      "name": "FINCH 1",
+      "pmid": "33504485",
+      "nct": "NCT02889796",
+      "year": 2021,
+      "tE": 364,
+      "tN": 475,
+      "cE": 237,
+      "cN": 475
+    }
+  ],
+  "raw_text": "Across four randomized trials (n = 2228 participants), the pooled odds ratio for ACR20 was 3.40 (95% CI 2.89 to 3.99), with no heterogeneity (I2 = 0%)."
+}

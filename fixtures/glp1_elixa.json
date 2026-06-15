@@ -1,0 +1,88 @@
+{
+  "title": "GLP-1 receptor agonists and 3-point MACE in type 2 diabetes",
+  "source": "fixture:glp1-elixa (REAL published per-trial MACE HRs; the claimed pooled HR of 0.62 is a planted over-statement reproducing the documented INCRETIN-style extraction error)",
+  "claimed": {
+    "measure": "HR",
+    "est": 0.62,
+    "lci": 0.55,
+    "uci": 0.7,
+    "I2": 40.0,
+    "k": 8,
+    "method": "inverse-variance random-effects"
+  },
+  "trials": [
+    {
+      "name": "ELIXA (lixisenatide)",
+      "pmid": "26630143",
+      "nct": "NCT01147250",
+      "year": 2015,
+      "effect": 1.02,
+      "elci": 0.89,
+      "euci": 1.17
+    },
+    {
+      "name": "LEADER (liraglutide)",
+      "pmid": "27295427",
+      "nct": "NCT01179048",
+      "year": 2016,
+      "effect": 0.87,
+      "elci": 0.78,
+      "euci": 0.97
+    },
+    {
+      "name": "SUSTAIN-6 (semaglutide SC)",
+      "pmid": "27633186",
+      "nct": "NCT01720446",
+      "year": 2016,
+      "effect": 0.74,
+      "elci": 0.58,
+      "euci": 0.95
+    },
+    {
+      "name": "EXSCEL (exenatide QW)",
+      "pmid": "28910237",
+      "nct": "NCT01144338",
+      "year": 2017,
+      "effect": 0.91,
+      "elci": 0.83,
+      "euci": 1.0
+    },
+    {
+      "name": "HARMONY Outcomes (albiglutide)",
+      "pmid": "30293770",
+      "nct": "NCT02465515",
+      "year": 2018,
+      "effect": 0.78,
+      "elci": 0.68,
+      "euci": 0.9
+    },
+    {
+      "name": "REWIND (dulaglutide)",
+      "pmid": "31189511",
+      "nct": "NCT01394952",
+      "year": 2019,
+      "effect": 0.88,
+      "elci": 0.79,
+      "euci": 0.99
+    },
+    {
+      "name": "PIONEER 6 (oral semaglutide)",
+      "pmid": "31185157",
+      "nct": "NCT02692716",
+      "year": 2019,
+      "effect": 0.79,
+      "elci": 0.57,
+      "euci": 1.11
+    },
+    {
+      "name": "AMPLITUDE-O (efpeglenatide)",
+      "pmid": "34010530",
+      "nct": "NCT03496298",
+      "year": 2021,
+      "effect": 0.73,
+      "elci": 0.58,
+      "euci": 0.92
+    }
+  ],
+  "raw_text": "Pooling eight cardiovascular-outcome trials, GLP-1 receptor agonists reduced 3-point MACE (pooled HR 0.62, 95% CI 0.55 to 0.70)."
+}

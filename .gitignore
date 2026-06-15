@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.cache/
+.pytest_cache/
+PROGRESS.md
+*.egg-info/
+build/
+dist/
+output/
+.DS_Store
