@@ -38,14 +38,51 @@
            (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
   }
 
+  function betacf(a, b, x) {
+    // Lentz continued fraction for the incomplete beta (Numerical Recipes).
+    var fpmin = 1e-300, qab = a+b, qap = a+1, qam = a-1;
+    var c = 1, d = 1 - qab*x/qap;
+    if (Math.abs(d) < fpmin) d = fpmin;
+    d = 1/d; var h = d;
+    for (var m = 1; m < 300; m++) {
+      var m2 = 2*m;
+      var aa = m*(b-m)*x/((qam+m2)*(a+m2));
+      d = 1 + aa*d; if (Math.abs(d) < fpmin) d = fpmin;
+      c = 1 + aa/c; if (Math.abs(c) < fpmin) c = fpmin;
+      d = 1/d; h *= d*c;
+      aa = -(a+m)*(qab+m)*x/((a+m2)*(qap+m2));
+      d = 1 + aa*d; if (Math.abs(d) < fpmin) d = fpmin;
+      c = 1 + aa/c; if (Math.abs(c) < fpmin) c = fpmin;
+      d = 1/d; var delta = d*c; h *= delta;
+      if (Math.abs(delta - 1) < 1e-15) break;
+    }
+    return h;
+  }
+  function betai(a, b, x) {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    var bt = Math.exp(lgamma(a+b) - lgamma(a) - lgamma(b)
+                      + a*Math.log(x) + b*Math.log(1-x));
+    if (x < (a+1)/(a+b+2)) return bt*betacf(a, b, x)/a;
+    return 1 - bt*betacf(b, a, 1-x)/b;
+  }
   function tPpf(p, df) {
+    // Exact Student-t inverse CDF (was a Cornish-Fisher series, ~11% off at df=1).
     if (df <= 0) return normPpf(p);
-    var x = normPpf(p);
-    var g1 = (Math.pow(x,3)+x)/4;
-    var g2 = (5*Math.pow(x,5)+16*Math.pow(x,3)+3*x)/96;
-    var g3 = (3*Math.pow(x,7)+19*Math.pow(x,5)+17*Math.pow(x,3)-15*x)/384;
-    var g4 = (79*Math.pow(x,9)+776*Math.pow(x,7)+1482*Math.pow(x,5)-1920*Math.pow(x,3)-945*x)/92160;
-    return x + g1/df + g2/(df*df) + g3/Math.pow(df,3) + g4/Math.pow(df,4);
+    if (p <= 0) return -Infinity;
+    if (p >= 1) return Infinity;
+    if (df === 1) return Math.tan(Math.PI*(p - 0.5));        // Cauchy closed form
+    if (df === 2) { var a2 = 2*p - 1; return a2*Math.sqrt(2/(1 - a2*a2)); }
+    function tCdf(t) {
+      var xb = df/(df + t*t), ib = betai(df/2, 0.5, xb);
+      return t > 0 ? 1 - 0.5*ib : 0.5*ib;
+    }
+    var lo = -1e6, hi = 1e6;
+    for (var i = 0; i < 200; i++) {
+      var mid = 0.5*(lo + hi);
+      if (tCdf(mid) < p) lo = mid; else hi = mid;
+    }
+    return 0.5*(lo + hi);
   }
 
   var LG = [676.5203681218851, -1259.1392167224028, 771.32342877765313,

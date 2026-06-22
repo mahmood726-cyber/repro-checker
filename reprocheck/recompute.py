@@ -218,16 +218,88 @@ def _reml_tau2(logs, vars_, init=0.0, max_iter=200, tol=1e-10):
     return tau2
 
 
+def _betacf(a: float, b: float, x: float) -> float:
+    """Lentz continued fraction for the incomplete beta (Numerical Recipes betacf)."""
+    fpmin = 1e-300
+    qab, qap, qam = a + b, a + 1.0, a - 1.0
+    c = 1.0
+    d = 1.0 - qab * x / qap
+    if abs(d) < fpmin:
+        d = fpmin
+    d = 1.0 / d
+    h = d
+    for m in range(1, 300):
+        m2 = 2 * m
+        aa = m * (b - m) * x / ((qam + m2) * (a + m2))
+        d = 1.0 + aa * d
+        if abs(d) < fpmin:
+            d = fpmin
+        c = 1.0 + aa / c
+        if abs(c) < fpmin:
+            c = fpmin
+        d = 1.0 / d
+        h *= d * c
+        aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2))
+        d = 1.0 + aa * d
+        if abs(d) < fpmin:
+            d = fpmin
+        c = 1.0 + aa / c
+        if abs(c) < fpmin:
+            c = fpmin
+        d = 1.0 / d
+        delta = d * c
+        h *= delta
+        if abs(delta - 1.0) < 1e-15:
+            break
+    return h
+
+
+def _betai(a: float, b: float, x: float) -> float:
+    """Regularized incomplete beta I_x(a, b) (stdlib only)."""
+    if x <= 0.0:
+        return 0.0
+    if x >= 1.0:
+        return 1.0
+    bt = math.exp(math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b)
+                  + a * math.log(x) + b * math.log(1.0 - x))
+    if x < (a + 1.0) / (a + b + 2.0):
+        return bt * _betacf(a, b, x) / a
+    return 1.0 - bt * _betacf(b, a, 1.0 - x) / b
+
+
 def _t_ppf(p: float, df: int) -> float:
-    """Student-t inverse CDF via Cornish-Fisher expansion off the normal quantile."""
+    """Student-t inverse CDF (exact, stdlib only).
+
+    df==1 and df==2 use closed forms; df>=3 inverts the t CDF (via the
+    regularized incomplete beta) by bisection. The previous Cornish-Fisher
+    expansion was inaccurate at small df (~11% at df=1), which mattered for
+    the t_{k-1} prediction interval at small k.
+    """
     if df <= 0:
         return _norm_ppf(p)
-    x = _norm_ppf(p)
-    g1 = (x ** 3 + x) / 4
-    g2 = (5 * x ** 5 + 16 * x ** 3 + 3 * x) / 96
-    g3 = (3 * x ** 7 + 19 * x ** 5 + 17 * x ** 3 - 15 * x) / 384
-    g4 = (79 * x ** 9 + 776 * x ** 7 + 1482 * x ** 5 - 1920 * x ** 3 - 945 * x) / 92160
-    return x + g1 / df + g2 / df ** 2 + g3 / df ** 3 + g4 / df ** 4
+    if p <= 0.0:
+        return float("-inf")
+    if p >= 1.0:
+        return float("inf")
+    if df == 1:                       # Cauchy closed form
+        return math.tan(math.pi * (p - 0.5))
+    if df == 2:                       # closed form
+        a = 2.0 * p - 1.0
+        return a * math.sqrt(2.0 / (1.0 - a * a))
+
+    def _t_cdf(t: float) -> float:
+        xb = df / (df + t * t)
+        ib = _betai(df / 2.0, 0.5, xb)
+        return 1.0 - 0.5 * ib if t > 0 else 0.5 * ib
+
+    lo, hi = -1.0e6, 1.0e6
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        if _t_cdf(mid) < p:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
 
 
 def _chisq_sf(x: float, k: int) -> float:
