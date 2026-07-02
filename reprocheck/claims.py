@@ -120,6 +120,42 @@ class Submission:
 
 _CI = r"(\d+(?:\.\d+)?)\s*(?:to|[-–,]|and)\s*(\d+(?:\.\d+)?)"
 
+# Negation words that, if they appear just before a "<N> trials/participants"
+# phrase, invert its meaning ("not included 5 trials" is NOT k=5). See
+# lessons.md#negated-counts-silent-corruption.
+_NEGATION = re.compile(r"\b(?:not|non|never|without|excluding|excluded|"
+                       r"minus|besides|apart from)\b", re.I)
+
+
+# A clause separator between a negation word and the count means the negation
+# governs a different clause ("excluded 3 studies but included 12 trials").
+_CLAUSE_BREAK = re.compile(r"[.;:]|\b(?:but|and|however|whereas|while)\b", re.I)
+
+
+def _negated_before(text: str, start: int, window: int = 30) -> bool:
+    """True if a governing negation word occurs in the `window` chars preceding
+    `start` with no clause break between it and the count.
+
+    Guards against the negated-count corruption ("not included 5 trials" is not
+    k=5) without swallowing legitimate counts in compound sentences where the
+    negation belongs to an earlier clause.
+    """
+    lead = text[max(0, start - window):start]
+    neg = None
+    for neg in _NEGATION.finditer(lead):
+        pass  # take the last (closest) negation in the window
+    if neg is None:
+        return False
+    return _CLAUSE_BREAK.search(lead[neg.end():]) is None
+
+
+def _first_unnegated(pattern: str, text: str, flags=0):
+    """First regex match whose lead-in is not negated, else None."""
+    for m in re.finditer(pattern, text, flags):
+        if not _negated_before(text, m.start()):
+            return m
+    return None
+
 
 def parse_claimed_text(text: str) -> Claimed:
     """Best-effort scrape of the claimed pooled result from manuscript prose."""
@@ -139,12 +175,15 @@ def parse_claimed_text(text: str) -> Claimed:
     m = re.search(r"\bQ\s*=\s*(\d+(?:\.\d+)?)", text)
     if m:
         c.Q = float(m.group(1))
-    # k: "we included N trials/studies/RCTs"
-    m = re.search(r"\b(?:included|pooled|comprising|across|identified)\s+"
-                  r"(\d{1,3})\s+(?:trials|studies|RCTs|randomi[sz]ed)", text, re.I)
+    # k: "we included N trials/studies/RCTs" -- skip negated lead-ins so
+    # "not included 5 trials" does not silently become k=5.
+    m = _first_unnegated(
+        r"\b(?:included|pooled|comprising|across|identified)\s+"
+        r"(\d{1,3})\s+(?:trials|studies|RCTs|randomi[sz]ed)", text, re.I)
     if m:
         c.k = int(m.group(1))
-    m = re.search(r"(\d[\d,]{2,})\s*(?:analysed\s+)?participants", text, re.I)
+    m = _first_unnegated(
+        r"(\d[\d,]{2,})\s*(?:analysed\s+)?participants", text, re.I)
     if m:
         c.n_stated = int(m.group(1).replace(",", ""))
     if re.search(r"random[- ]?effects", text, re.I):
