@@ -54,14 +54,36 @@ python synthesis_gate.py --ojs-base https://www.synthesis-medicine.org/index.php
 python -m reprocheck.cli check fixtures/paper105_jak_ra.json            # live re-source
 python -m reprocheck.cli check submission.json --offline --format json  # no network
 python -m reprocheck.cli check manuscript.txt  --format html --out report.html
+python -m reprocheck.cli --version
 
-# Validation (the honest validation set)
-python scripts/validate.py --write     # runs all fixtures live, writes VALIDATION.md
+# Reproducible benchmark (bundled honest validation set)
+python -m reprocheck.cli validate            # offline, deterministic; exit 0 iff all pass
+python -m reprocheck.cli validate --live     # add live citation re-sourcing
+
+# Validation report (writes VALIDATION.md)
+python scripts/validate.py --write           # runs all fixtures live, writes VALIDATION.md
 ```
 
 Engine + CLI are **standard-library only**. `pytest` is the only dev dependency.
 
+**Input validation.** `Submission.from_dict` / `from_json_file` (the public
+entry points behind the CLI and the Synthēsis gate) validate structure and
+types and **fail closed** with a `SubmissionError` naming the offending field on
+malformed input — a non-list `trials`, a non-object `claimed`, a non-numeric
+effect/CI, or a negative/fractional count — rather than letting bad data flow
+into the recompute engine. Well-formed numeric strings (common in
+spreadsheet-exported tables) are coerced; absent fields stay absent (reported as
+*cannot-verify*, never guessed).
+
 ## Validation
+
+The bundled **reproducible benchmark** runs the whole pipeline over the six
+honest validation fixtures and asserts each lands on its expected overall
+verdict (`REPRODUCES` / `DIVERGES` / `FAIL`). It runs offline and deterministic —
+`python -m reprocheck.cli validate` — and exits non-zero if any fixture regresses,
+so it doubles as a CI gate. The verdict contract and fixture set live in one
+place (`reprocheck/benchmark.py`), shared by the CLI, `scripts/validate.py`, and
+the test suite.
 
 See [`VALIDATION.md`](VALIDATION.md). On the agreed set, with **live**
 re-sourcing:
@@ -79,7 +101,7 @@ re-sourcing:
 
 | Path | Purpose |
 |---|---|
-| `reprocheck/` | the shared engine + CLI |
+| `reprocheck/` | the shared engine + CLI (incl. `benchmark.py`, the reproducible validation benchmark) |
 | `synthesis_gate.py` | Synthēsis OJS pre-acceptance gate |
 | `docs/index.html` | standalone offline web UI |
 | `fixtures/` | validation fixtures (self-contained JSON) |
