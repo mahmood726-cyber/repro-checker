@@ -18,3 +18,5 @@ Reuses audited pieces from the allmeta ecosystem:
 """
 
 __version__ = "0.1.0"
+
+from .claims import Submission, SubmissionError  # noqa: E402,F401

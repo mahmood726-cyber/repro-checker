@@ -20,6 +20,57 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 
+class SubmissionError(ValueError):
+    """Raised when a submission cannot be parsed into a valid Submission.
+
+    Public entry points (`Submission.from_dict`, `from_json_file`) fail closed
+    with this error on malformed input rather than propagating an opaque
+    ``AttributeError``/``TypeError`` from deep inside the pipeline or, worse,
+    silently accepting a semantically impossible study table. The message names
+    the offending field so an editor or caller can fix the submission.
+    """
+
+
+def _as_number(value, field_name: str):
+    """Coerce ``value`` to a float, or None if absent. Fails closed otherwise.
+
+    Accepts int/float and numeric strings (a JSON study table exported from a
+    spreadsheet often carries "1.42" rather than 1.42). Rejects booleans and
+    non-numeric text so a stray label never becomes a silent 0/1.
+    """
+    if value is None or value == "":
+        return None
+    if isinstance(value, bool):  # bool is a subclass of int; reject explicitly
+        raise SubmissionError(f"{field_name}: expected a number, got boolean {value!r}")
+    if isinstance(value, (int, float)):
+        return float(value)
+    if isinstance(value, str):
+        try:
+            return float(value.strip())
+        except ValueError:
+            raise SubmissionError(
+                f"{field_name}: expected a number, got non-numeric {value!r}")
+    raise SubmissionError(
+        f"{field_name}: expected a number, got {type(value).__name__}")
+
+
+def _as_count(value, field_name: str):
+    """Coerce to a non-negative integer count, or None if absent. Fails closed.
+
+    Event counts and arm sizes are cardinalities: a negative or fractional value
+    is a data error, and the parser refuses it here rather than letting it flow
+    into the recompute engine and produce a nonsense pooled estimate.
+    """
+    num = _as_number(value, field_name)
+    if num is None:
+        return None
+    if num < 0:
+        raise SubmissionError(f"{field_name}: count must be >= 0, got {num:g}")
+    if num != int(num):
+        raise SubmissionError(f"{field_name}: count must be a whole number, got {num:g}")
+    return int(num)
+
+
 @dataclass
 class Trial:
     name: str
@@ -88,27 +139,81 @@ class Submission:
 
     @classmethod
     def from_dict(cls, d: dict) -> "Submission":
+        """Build a validated Submission from a study-table dict.
+
+        Fails closed with :class:`SubmissionError` (naming the field) on
+        malformed input: a non-dict payload, a ``trials`` value that is not a
+        list, a ``claimed`` value that is not a mapping, non-numeric effect/CI
+        fields, or negative/fractional counts. Absent fields stay absent — the
+        checker still reports "cannot-verify" rather than guessing.
+        """
+        if not isinstance(d, dict):
+            raise SubmissionError(
+                f"submission must be a JSON object, got {type(d).__name__}")
+
         c = d.get("claimed", {})
+        if c is None:
+            c = {}
+        if not isinstance(c, dict):
+            raise SubmissionError(
+                f"'claimed' must be an object, got {type(c).__name__}")
+        k = c.get("k")
+        k = _as_count(k, "claimed.k") if k is not None else None
+        n_stated = c.get("n_stated")
+        n_stated = _as_count(n_stated, "claimed.n_stated") if n_stated is not None else None
         claimed = Claimed(
-            measure=c.get("measure", ""), est=c.get("est"), lci=c.get("lci"),
-            uci=c.get("uci"), I2=c.get("I2"), Q=c.get("Q"), tau2=c.get("tau2"),
-            pi_lci=c.get("pi_lci"), pi_uci=c.get("pi_uci"), k=c.get("k"),
-            n_stated=c.get("n_stated"), method=c.get("method", ""),
+            measure=str(c.get("measure", "") or ""),
+            est=_as_number(c.get("est"), "claimed.est"),
+            lci=_as_number(c.get("lci"), "claimed.lci"),
+            uci=_as_number(c.get("uci"), "claimed.uci"),
+            I2=_as_number(c.get("I2"), "claimed.I2"),
+            Q=_as_number(c.get("Q"), "claimed.Q"),
+            tau2=_as_number(c.get("tau2"), "claimed.tau2"),
+            pi_lci=_as_number(c.get("pi_lci"), "claimed.pi_lci"),
+            pi_uci=_as_number(c.get("pi_uci"), "claimed.pi_uci"),
+            k=k, n_stated=n_stated, method=str(c.get("method", "") or ""),
         )
+
+        raw_trials = d.get("trials", [])
+        if raw_trials is None:
+            raw_trials = []
+        if not isinstance(raw_trials, list):
+            raise SubmissionError(
+                f"'trials' must be a list, got {type(raw_trials).__name__}")
         trials = []
-        for t in d.get("trials", []):
+        for i, t in enumerate(raw_trials):
+            if not isinstance(t, dict):
+                raise SubmissionError(
+                    f"trials[{i}] must be an object, got {type(t).__name__}")
+            yr = t.get("year")
+            year = _as_count(yr, f"trials[{i}].year") if yr is not None else None
             trials.append(Trial(
-                name=t.get("name", ""), pmid=str(t.get("pmid", "") or ""),
-                doi=t.get("doi", ""), nct=t.get("nct", ""), year=t.get("year"),
-                tE=t.get("tE"), tN=t.get("tN"), cE=t.get("cE"), cN=t.get("cN"),
-                effect=t.get("effect"), elci=t.get("elci"), euci=t.get("euci"),
+                name=str(t.get("name", "") or ""),
+                pmid=str(t.get("pmid", "") or ""),
+                doi=str(t.get("doi", "") or ""), nct=str(t.get("nct", "") or ""),
+                year=year,
+                tE=_as_count(t.get("tE"), f"trials[{i}].tE"),
+                tN=_as_count(t.get("tN"), f"trials[{i}].tN"),
+                cE=_as_count(t.get("cE"), f"trials[{i}].cE"),
+                cN=_as_count(t.get("cN"), f"trials[{i}].cN"),
+                effect=_as_number(t.get("effect"), f"trials[{i}].effect"),
+                elci=_as_number(t.get("elci"), f"trials[{i}].elci"),
+                euci=_as_number(t.get("euci"), f"trials[{i}].euci"),
             ))
-        return cls(title=d.get("title", ""), claimed=claimed, trials=trials,
-                   raw_text=d.get("raw_text", ""), source=d.get("source", "dict"))
+        return cls(title=str(d.get("title", "") or ""), claimed=claimed,
+                   trials=trials, raw_text=str(d.get("raw_text", "") or ""),
+                   source=str(d.get("source", "dict") or "dict"))
 
     @classmethod
     def from_json_file(cls, path: str) -> "Submission":
-        d = json.loads(Path(path).read_text(encoding="utf-8"))
+        try:
+            text = Path(path).read_text(encoding="utf-8")
+        except OSError as e:
+            raise SubmissionError(f"cannot read submission file {path}: {e}")
+        try:
+            d = json.loads(text)
+        except json.JSONDecodeError as e:
+            raise SubmissionError(f"invalid JSON in {path}: {e}")
         sub = cls.from_dict(d)
         sub.source = sub.source or f"json:{path}"
         return sub
