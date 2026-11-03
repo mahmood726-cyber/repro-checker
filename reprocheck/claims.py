@@ -7,7 +7,7 @@ re-pool. Input may be:
 
   * a structured study table (dict / JSON)  -- the authoritative path
   * pasted manuscript text                  -- regex heuristics (count + effect)
-  * a cloned RapidMeta dashboard directory  -- reuses extract.py patterns
+  (a dashboard-directory reader is not implemented in this package)
 
 Nothing here invents data: a field that is absent stays absent, and the checker
 reports "cannot-verify" rather than guessing.

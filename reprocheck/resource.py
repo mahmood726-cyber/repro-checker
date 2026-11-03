@@ -13,6 +13,7 @@ reproducible. Network calls use bounded retry/backoff and fail closed.
 from __future__ import annotations
 
 import json
+import os
 import re
 import time
 import urllib.error
@@ -22,7 +23,8 @@ from pathlib import Path
 
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 CTGOV = "https://clinicaltrials.gov/api/v2"
-DEFAULT_EMAIL = "mahmood726@gmail.com"
+# Contact e-mail for the NCBI User-Agent: opt-in via REPROCHECK_EMAIL; none is sent by default.
+DEFAULT_EMAIL = os.environ.get("REPROCHECK_EMAIL", "")
 
 # PubMed publication types that indicate a primary trial vs. a synthesis/opinion.
 TRIAL_PUBTYPES = {
@@ -51,7 +53,7 @@ def _get(url: str, email: str = DEFAULT_EMAIL, retries: int = 3,
     failure. 429/5xx are retried; other failures fail closed via ResourceError.
     """
     req = urllib.request.Request(url, headers={
-        "User-Agent": f"reprocheck/0.1 ({email})"})
+        "User-Agent": f"reprocheck/0.1 ({email})" if email else "reprocheck/0.1"})
     last = None
     for attempt in range(retries):
         try:
@@ -92,9 +94,9 @@ def _efetch_pubtypes(pmid: str, email: str = DEFAULT_EMAIL) -> list[str]:
 class Resolver:
     """Caching resolver for PubMed and ClinicalTrials.gov records."""
 
-    def __init__(self, cache_dir: str | None = None, email: str = DEFAULT_EMAIL,
+    def __init__(self, cache_dir: str | None = None, email: str | None = None,
                  offline: bool = False):
-        self.email = email
+        self.email = email if email is not None else os.environ.get("REPROCHECK_EMAIL", "")
         self.offline = offline
         self.cache_dir = Path(cache_dir) if cache_dir else None
         self._mem: dict[str, dict] = {}
