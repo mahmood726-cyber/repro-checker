@@ -88,3 +88,12 @@ def test_reproduces_discloses_unsourced_citations():
 def test_no_hardcoded_email_default(monkeypatch):
     monkeypatch.delenv("REPROCHECK_EMAIL", raising=False)
     assert Resolver().email == ""
+
+
+# --- D10: claim parser must not read the 'or' inside 'for' as an odds ratio ----------------
+def test_parser_requires_word_boundary_for_measure():
+    from reprocheck.claims import parse_claimed_text
+    c = parse_claimed_text("The pooled estimates for each type were 1.49 (95% CI 1.40 to 1.60).")
+    assert c.measure != "OR" and c.est is None
+    c = parse_claimed_text("mortality was lower (OR 0.75, 95% CI 0.65 to 0.87)")
+    assert (c.measure, c.est, c.lci, c.uci) == ("OR", 0.75, 0.65, 0.87)
