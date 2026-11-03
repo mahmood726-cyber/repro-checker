@@ -125,8 +125,8 @@ def parse_claimed_text(text: str) -> Claimed:
     """Best-effort scrape of the claimed pooled result from manuscript prose."""
     c = Claimed()
     m = re.search(
-        r"(?:pooled\s+)?(OR|RR|HR|SMD|MD|odds ratio|risk ratio|rate ratio|"
-        r"hazard ratio)\D{0,20}?(\d+\.\d+)\D{0,15}?95%\s*CI[^0-9]{0,6}" + _CI,
+        r"(?:pooled\s+)?\b(OR|RR|HR|SMD|MD|odds ratio|risk ratio|rate ratio|"
+        r"hazard ratio)\b\D{0,20}?(\d+\.\d+)\D{0,15}?95%\s*CI[^0-9]{0,6}" + _CI,
         text, re.I)
     if m:
         meas = m.group(1).upper()
