@@ -13,7 +13,11 @@
   "use strict";
 
   // ---- normal / t / chi-square helpers -----------------------------------
+  // qnorm(0.975) to double precision (Acklam is ~1.6e-9 off there; P55 validation vs metafor)
+  var Z975 = 1.959963984540054;
   function normPpf(p) {
+    if (p === 0.975) return Z975;
+    if (p === 0.025) return -Z975;
     var a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,
              1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00];
     var b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,
@@ -110,7 +114,7 @@
     }
     return h*Math.exp(-x + a*Math.log(x) - lgamma(a));
   }
-  function chisqSf(x, k) { return x <= 0 ? 1 : gammaincc(k/2, x/2); }
+  function chisqSf(x, k) { if (k <= 0) return NaN; return x <= 0 ? 1 : gammaincc(k/2, x/2); }
 
   // ---- per-study effect ---------------------------------------------------
   function studyLogEffect(s, measure) {
@@ -119,6 +123,8 @@
       var logEff = Math.log(eff);
       var z = normPpf(0.975);
       var se = (Math.log(uci) - Math.log(lci)) / (2*z);
+      if (!isFinite(logEff) || !isFinite(se) || isNaN(logEff) || isNaN(se) || se <= 0)
+        throw new Error("math domain error (effect/CI must be positive ratios with lci < uci)");
       return { logEff: logEff, varr: se*se, est: eff, lci: lci, uci: uci };
     }
     var a = s.tE, b = s.tN - s.tE, c = s.cE, d = s.cN - s.cE;
@@ -130,6 +136,8 @@
     } else { // OR
       le = Math.log((a*d)/(b*c)); v = 1/a + 1/b + 1/c + 1/d;
     }
+    if (!isFinite(le) || isNaN(le) || !isFinite(v) || isNaN(v) || v <= 0)
+      throw new Error("math domain error (counts must satisfy 0 <= events <= n)");
     var se2 = Math.sqrt(v), zz = normPpf(0.975);
     return { logEff: le, varr: v, est: Math.exp(le),
              lci: Math.exp(le - zz*se2), uci: Math.exp(le + zz*se2) };
@@ -164,6 +172,7 @@
     var sw = wf.reduce(function (x, y) { return x+y; }, 0);
     var muF = 0; for (var i=0;i<wf.length;i++) muF += wf[i]*logs[i]; muF /= sw;
     var Q = 0; for (var j=0;j<wf.length;j++) Q += wf[j]*(logs[j]-muF)*(logs[j]-muF);
+    if (k === 1) Q = 0;   // one study: no heterogeneity (rounding residue gave I2 = 100%)
     var Qdf = k - 1;
     var cdl = sw - wf.reduce(function (x, y) { return x+y*y; }, 0)/sw;
     var tau2dl = cdl > 0 ? Math.max(0, (Q-Qdf)/cdl) : 0;
@@ -236,7 +245,18 @@
     if (claimed.k != null)
       out.push(verdict(claimed.k, p?p.k:null, p!=null && claimed.k===p.k, "exact",
                        "k (studies pooled)", "no poolable trials re-sourced"));
-    if (claimed.pi_lci != null && p && !isNaN(p.pi_lci)) {
+    if (claimed.tau2 != null)
+      out.push({ quantity: "tau^2", claimed: claimed.tau2, recomputed: p ? round(p.tau2, 4) : null,
+                 verdict: "cannot-verify", tolerance: "none defined",
+                 reason: "tau^2 claim listed but not compared (no tolerance defined)" });
+    var piClaimed = claimed.pi_lci != null || claimed.pi_uci != null;
+    if (piClaimed && (!p || isNaN(p.pi_lci))) {
+      var why = p ? "prediction interval undefined for k<2" : (opts.recompute_reason || "no sourceable data to recompute");
+      [["prediction interval lower", claimed.pi_lci], ["prediction interval upper", claimed.pi_uci]].forEach(function (x) {
+        out.push({ quantity: x[0], claimed: x[1] == null ? null : x[1], recomputed: null, verdict: "cannot-verify",
+                   tolerance: "±"+(t.pi_rel*100)+"%", reason: why });
+      });
+    } else if (claimed.pi_lci != null && p && !isNaN(p.pi_lci)) {
       out.push(verdict(claimed.pi_lci, round(p.pi_lci,3),
                        isRatio?ratioClose(claimed.pi_lci,p.pi_lci,t.pi_rel):absClose(claimed.pi_lci,p.pi_lci,t.abs_ci*2),
                        "±"+(t.pi_rel*100)+"%", "prediction interval lower"));
@@ -283,7 +303,8 @@
           else if (e>n) F.push({id:"impossible-count",severity:"high",title:"Events exceed arm size",detail:arm[0]+": events="+e+" > n="+n+" (extraction/unit error)",subject:t.name});
         });
       } else if (sh === "effect") {
-        if (t.effect != null && t.effect <= 0) F.push({id:"impossible-effect",severity:"high",title:"Non-positive ratio effect",detail:"effect="+t.effect,subject:t.name});
+        var ratioM = !!RATIO[((sub.claimed && sub.claimed.measure) || "OR").toUpperCase()];
+        if (ratioM && t.effect != null && t.effect <= 0) F.push({id:"impossible-effect",severity:"high",title:"Non-positive ratio effect",detail:"effect="+t.effect,subject:t.name});
         if (t.elci!=null && t.euci!=null && t.elci>t.euci) F.push({id:"ci-order",severity:"medium",title:"CI bounds reversed",detail:"lci="+t.elci+" > uci="+t.euci,subject:t.name});
         if (t.effect!=null&&t.elci!=null&&t.euci!=null&&!(t.elci<=t.effect&&t.effect<=t.euci))
           F.push({id:"effect-outside-ci",severity:"medium",title:"Point estimate lies outside its own 95% CI",detail:"effect="+t.effect+", CI "+t.elci+"-"+t.euci+" (arithmetic/transcription error)",subject:t.name});
@@ -338,13 +359,22 @@
     var measure = (claimed.measure||"OR").toUpperCase();
     var studies = (sub.trials||[]).map(toStudy).filter(Boolean);
     var pooled = null, reason = "";
-    if (studies.length >= 1) {
+    if (!RATIO[measure]) reason = "measure "+measure+" is not supported (the engine pools ratio measures on the log scale only)";
+    else if (measure !== "OR" && measure !== "RR" && studies.some(function (s) { return s.shape === "count"; }))
+      reason = "2x2 counts give an OR or RR, not a pooled "+measure;
+    if (reason) { /* not recomputed */ }
+    else if (studies.length >= 1) {
       try { pooled = metaAnalyze(studies, (measure==="RR"?"RR":"OR")).pooled; }
       catch (e) { reason = "recompute failed: "+e; }
     } else { reason = "no poolable trial data supplied"; }
     var claims = compare(claimed, pooled, { recompute_reason: reason });
     var flags = flagsFor(sub, opts.sourcing);
     var ov = overall(claims, flags, pooled, reason);
+    if (ov[0].indexOf("REPRODUCES") === 0 || ov[0].indexOf("PARTIAL") === 0) {
+      var nTr = (sub.trials||[]).length;
+      var nReal = (opts.sourcing||[]).filter(function (s) { return s.verdict === "real-trial"; }).length;
+      if (nReal < nTr) ov[1] += " Only "+nReal+" of "+nTr+" cited trials were independently re-sourced; the pooled numbers come from the submission's own study table.";
+    }
     return { title: sub.title||"", source: sub.source||"", overall: ov[0],
              overall_detail: ov[1], measure: measure, recomputed: pooled,
              claims: claims, flags: flags, sourcing: opts.sourcing||[],

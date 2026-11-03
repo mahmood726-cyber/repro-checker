@@ -17,6 +17,7 @@ import re
 from dataclasses import dataclass, asdict
 
 from .claims import Submission, Trial
+from .compare import RATIO_MEASURES
 
 PLACEHOLDER_PATTERNS = [
     (r"\bn participants\b", "literal 'n participants' (unfilled count token)"),
@@ -82,7 +83,8 @@ def flag_data_sanity(sub: Submission) -> list[Flag]:
                                     f"(extraction or unit error)", t.name))
         elif sh == "effect":
             e, lo, hi = t.effect, t.elci, t.euci
-            if e is not None and (e <= 0):
+            ratio = (sub.claimed.measure or "OR").upper() in RATIO_MEASURES
+            if ratio and e is not None and (e <= 0):
                 out.append(Flag("impossible-effect", "high",
                                 "Non-positive ratio effect",
                                 f"effect={e} (ratios must be > 0)", t.name))
