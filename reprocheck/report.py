@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 
 from .claims import Submission
 from .recompute import meta_analyze, PooledEffect
-from .compare import compare, Tolerances, ClaimVerdict
+from .compare import compare, Tolerances, ClaimVerdict, RATIO_MEASURES
 from .flags import all_structural_flags, flag_sourcing, Flag
 from .resource import Resolver, resolve_trial
 
@@ -153,7 +153,14 @@ def check(sub: Submission, resolver: Resolver | None = None,
     recompute_reason = ""
     studies = [t.to_study() for t in sub.trials]
     studies = [s for s in studies if s is not None]
-    if recompute and len(studies) >= 1:
+    if measure not in RATIO_MEASURES:
+        recompute_reason = (f"measure {measure} is not supported "
+                            f"(the engine pools ratio measures on the log scale only)")
+    elif measure not in ("OR", "RR") and any(s["shape"] == "count" for s in studies):
+        recompute_reason = f"2x2 counts give an OR or RR, not a pooled {measure}"
+    if recompute_reason:
+        pass
+    elif recompute and len(studies) >= 1:
         try:
             _, pooled = meta_analyze(studies, measure if measure in
                                      ("OR", "RR") else "OR")
@@ -176,6 +183,11 @@ def check(sub: Submission, resolver: Resolver | None = None,
 
     # 5. overall verdict
     overall, detail = _overall(claims, flags, pooled, recompute_reason)
+    if overall.startswith(("REPRODUCES", "PARTIAL")):
+        n_real = sum(1 for s in sourcing if s.get("verdict") == "real-trial")
+        if n_real < len(sub.trials):
+            detail += (f" Only {n_real} of {len(sub.trials)} cited trials were independently "
+                       f"re-sourced; the pooled numbers come from the submission's own study table.")
 
     return ReproReport(
         title=sub.title, source=sub.source, overall=overall,

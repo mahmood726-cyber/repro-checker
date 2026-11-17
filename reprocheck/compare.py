@@ -112,8 +112,21 @@ def compare(claimed: Claimed, pooled: PooledEffect | None,
                             "k (studies pooled)",
                             "no poolable trials re-sourced"))
 
-    # prediction interval (only if claimed and computable)
-    if claimed.pi_lci is not None and p is not None and not math.isnan(p.pi_lci):
+    # tau^2: listed so a claim never vanishes; no tolerance is defined, so it is not judged
+    if claimed.tau2 is not None:
+        out.append(ClaimVerdict("tau^2", claimed.tau2,
+                                round(p.tau2, 4) if p else None, "cannot-verify", "none defined",
+                                "tau^2 claim listed but not compared (no tolerance defined)"))
+
+    # prediction interval: a claimed PI that cannot be recomputed is cannot-verify, never dropped
+    pi_claimed = claimed.pi_lci is not None or claimed.pi_uci is not None
+    if pi_claimed and (p is None or math.isnan(p.pi_lci)):
+        why = ("prediction interval undefined for k<2" if p is not None
+               else (recompute_reason or "no sourceable data to recompute"))
+        for nm, cv in (("prediction interval lower", claimed.pi_lci),
+                       ("prediction interval upper", claimed.pi_uci)):
+            out.append(ClaimVerdict(nm, cv, None, "cannot-verify", f"±{tol.pi_rel:.0%}", why))
+    elif claimed.pi_lci is not None and p is not None and not math.isnan(p.pi_lci):
         if is_ratio:
             ok_lo = _ratio_close(claimed.pi_lci, p.pi_lci, tol.pi_rel)
             ok_hi = _ratio_close(claimed.pi_uci, p.pi_uci, tol.pi_rel)

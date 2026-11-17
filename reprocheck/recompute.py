@@ -23,8 +23,17 @@ from dataclasses import dataclass
 
 # ---- normal / t helpers (no scipy dependency) -----------------------------
 
+# qnorm(0.975) to double precision. Acklam's approximation is ~1.6e-9 off here, which moved
+# effect-shape SEs, Q, Qp and I2 by ~1.6e-9 relative (P55 validation vs metafor).
+Z975 = 1.959963984540054
+
+
 def _norm_ppf(p: float) -> float:
-    """Inverse standard-normal CDF (Acklam's algorithm)."""
+    """Inverse standard-normal CDF (Acklam's algorithm; exact constant at 0.025/0.975)."""
+    if p == 0.975:
+        return Z975
+    if p == 0.025:
+        return -Z975
     a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,
          1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00]
     b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,
@@ -157,6 +166,8 @@ def meta_analyze(studies: list[dict], measure: str = "OR") -> tuple[list[StudyEf
 
     # Cochran's Q and DerSimonian-Laird tau^2 (cross-check estimator)
     Q = sum(w * (l - mu_fixed) ** 2 for w, l in zip(w_fixed, logs))
+    if k == 1:
+        Q = 0.0   # one study: no heterogeneity (sum/weight rounding left a ~1e-33 residue -> I2 100%)
     Qdf = k - 1
     c_dl = sw - sum(w * w for w in w_fixed) / sw
     tau2_dl = max(0.0, (Q - Qdf) / c_dl) if c_dl > 0 else 0.0
@@ -304,6 +315,8 @@ def _t_ppf(p: float, df: int) -> float:
 
 def _chisq_sf(x: float, k: int) -> float:
     """Survival function of chi-square with k df (regularized upper gamma)."""
+    if k <= 0:
+        return float("nan")          # no degrees of freedom: test undefined
     if x <= 0:
         return 1.0
     return _gammaincc(k / 2.0, x / 2.0)

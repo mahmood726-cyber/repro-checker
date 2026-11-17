@@ -106,6 +106,7 @@
 
 <script src="examples.js"></script>
 <script src="engine.js"></script>
+<script src="rpath.js"></script>
 <script>
 (function () {
   "use strict";
@@ -220,7 +221,37 @@
       });
       h+='</table></div>';
     }
+    h+='<div class="card" id="rcard"><h3>Check these numbers in R</h3>'
+      +'<p class="muted">One R script, generated from the submission above, re-pools the same study table with '
+      +'<span class="mono">metafor</span> (REML) and prints page value, R value and difference for every recomputed number, '
+      +'then <span class="mono">MATCH n/n</span> or <span class="mono">MISMATCH</span>.</p>'
+      +'<div class="row"><div style="flex:0"><button class="ghost" id="rdl">Download R script</button></div>'
+      +'<div style="flex:0"><button class="ghost" id="rweb">Verify in R</button></div>'
+      +'<div><span id="rstatus" class="mono"></span></div></div>'
+      +'<pre id="rout" class="mono" style="white-space:pre-wrap;font-size:12px;display:none"></pre></div>';
     document.getElementById("out").innerHTML=h;
+    wireR();
+  }
+
+  var lastSub=null, lastRep=null;
+  function wireR(){
+    var st=document.getElementById("rstatus"), pre=document.getElementById("rout");
+    function built(){ return window.RCR.buildScript(lastSub,lastRep); }
+    document.getElementById("rdl").addEventListener("click",function(){
+      var b=built();
+      if(!b.ok){ st.textContent="NOT CHECKED: "+b.reason; return; }
+      window.RCR.download(b.script,"reprocheck_verify.R");
+      st.textContent="Downloaded reprocheck_verify.R - run: Rscript reprocheck_verify.R";
+    });
+    document.getElementById("rweb").addEventListener("click",function(){
+      var b=built();
+      if(!b.ok){ st.textContent="NOT CHECKED: "+b.reason; return; }
+      var btn=this; btn.disabled=true;
+      window.RCR.runInWebR(b.script,["metafor"],function(t){ st.textContent=t; }).then(function(r){
+        st.textContent=r.line; st.setAttribute("data-status",r.status);
+        pre.style.display=""; pre.textContent=r.output; btn.disabled=false;
+      });
+    });
   }
 
   document.getElementById("run").addEventListener("click", async function(){
@@ -236,7 +267,8 @@
       catch(e){ sourcing=[]; }
       err.textContent="";
     }
-    render(window.RC.check(sub,{sourcing:sourcing,generated:new Date().toISOString().slice(0,16).replace("T"," ")+" UTC"}));
+    lastSub=sub;
+    render(lastRep=window.RC.check(sub,{sourcing:sourcing,generated:new Date().toISOString().slice(0,16).replace("T"," ")+" UTC"}));
   });
 })();
 </script>

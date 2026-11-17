@@ -1,8 +1,9 @@
 # reprocheck — meta-analysis reproducibility checker
 
-Re-derives a meta-analysis's pooled statistics from **independently re-sourced
-primary trial data** and reports, per claim, what does **not** hold up — the
-check peer review almost never runs.
+Re-pools a meta-analysis from the **study table supplied with the submission**,
+checks that each cited trial is a real primary trial in PubMed / ClinicalTrials.gov,
+and reports, per claim, what does **not** hold up. The trial-level numbers are
+not fetched from the registries: re-sourcing confirms the citation, not the data.
 
 **Truth-first.** A number is reported as *reproduced* only when it actually
 recomputes from sourced data. When the data is not sourceable, the verdict is an
@@ -33,12 +34,17 @@ python synthesis_gate.py --ojs-base https://www.synthesis-medicine.org/index.php
 ## What it does (pipeline)
 
 1. **Extract** the included trials + claimed pooled stats from the submission
-   (`claims.py`; rct-extractor-v2 for full PDFs).
-2. **Re-source** each trial independently from PubMed/PMC (NCBI E-utilities) and
+   (`claims.py`: a structured JSON study table, or a regex scrape of the claimed
+   pooled result from pasted text; PDF extraction is not implemented here).
+2. **Re-source** each trial independently from PubMed (NCBI E-utilities) and
    ClinicalTrials.gov v2 (`resource.py`) — confirms the trial is real and is a
-   *trial* (not a review/methods paper miscited as one).
+   *trial* (not a review/methods paper miscited as one). No outcome data are
+   fetched. Set `REPROCHECK_EMAIL` to send a contact address to NCBI; none is sent
+   by default.
 3. **Recompute** the pooled effect + 95% CI + I²/τ²/Q + k with inverse-variance
-   random-effects (DerSimonian–Laird + REML), on the log scale (`recompute.py`,
+   random-effects (REML; DerSimonian–Laird τ² is reported as a cross-check), on the
+   log scale, for OR/RR from 2×2 counts or any ratio measure given as effect + 95% CI;
+   difference measures (MD/SMD) are reported as cannot-verify (`recompute.py`,
    vendored from the audited `synthesis-paper-spec/metapaper/stats.py`).
 4. **Compare** recomputed vs claimed → per-claim verdicts (`compare.py`).
 5. **Flag** non-reproducing pools (both values shown), per-trial extraction /
